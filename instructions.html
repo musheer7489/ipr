@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="ic.jpg">
+    <title>Upload Photo and Signature</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .upload-instructions {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container upload-instructions">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h3>Upload Photo and Signature Instructions</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5>Photo Upload Instructions: </h5>
+                        <ol>
+                            <li><b>Dimensions:</b> 200 pixels width x 230 pixels height.</li>
+                            <li><b>File Size:</b> 20 KB to 50 KB.</li>
+                            <li><b>Format:</b> JPEG or JPG.</li>
+                            <li><b>Background:</b> Light or white background.</li>
+                            <li>The photo should be a recent passport-size color photograph.</li>
+                            <li>Face should be clearly visible, facing the camera directly.</li>
+                            <li>Eyes should be open and visible.</li>
+                            <li>The photo should not have any borders.</li>
+                            <li>Ensure the photo is not too dark or too light.</li>
+                        </ol>
+                        <h5>Signature Specifications:</h5>
+                        <ol>
+                            <li><b>Dimensions:</b> 140 pixels width x 60 pixels height</li>
+                            <li><b>File Size:</b> 10 KB to 20 KB</li>
+                            <li><b>Format:</b> JPEG or JPG</li>
+                            <li><b>Background:</b> White background</li>
+                            <li>The signature should be done on white paper with a black ink pen.</li>
+                            <li>The signature should be clear and without any smudges.</li>
+                            <li>Ensure the signature is not cropped too closely; there should be a margin around it.</li>
+                        </ol>
+                            <button type="button" class="btn btn-secondary" onclick="closeInstructions()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function closeInstructions() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

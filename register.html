@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="ic.jpg">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        #progressBarContainer {
+            display: none;
+            width: 100%;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        #progressBar {
+            width: 0;
+            height: 30px;
+            background-color: #4caf50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .circle {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            z-index: 10;
+            background: conic-gradient(yellow 50%,
+                    gray 50%);
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .modal-content {
+            max-height: 90vh;
+            /* Set maximum height for the modal */
+        }
+
+        .modal-body {
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+        }
+
+        .container {
+            background-color: #eee;
+        }
+
+        @media only screen and (max-width: 480px) {
+            header img {
+                width: 18rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand"><img src="ipr-logo.png" alt="ipr-logo"></a>
+                <div class="d-flex">
+                    <a href="register.html" class="btn btn-outline-secondary mx-2">Register</a>
+                    <a href="index.html" class="btn btn-outline-secondary">Login</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Modal -->
+    <div class="modal" id="instructionsModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Instructions for Registration</h4>
+                </div>
+                <div class="modal-body">
+                    <h6>Read the below instructions carefully, before filling up the online application form.</h6>
+                    <ol>
+
+                        <li>Only Indian Nationals are eligible to apply. </li>
+                        <li>The numbers of vacancies indicated above are provisional and may be increased / decreased
+                            depending
+                            on the actual requirement of the organization.</li>
+                        <li>Persons with Benchmarked Disabilities (PwBD) covered under the categories of Hard of Hearing
+                            (HH), One Leg (OL), One Arm (OA), Acid Attack Victims (AAV) and Dwarfism (DW) can also apply
+                        </li>
+                        <li>Before filling up the Online Recruitment Application, the candidates must go through the
+                            detailed
+                            Advertisement. Please proceed to fill the online application only if you possess the
+                            Essential
+                            Qualifications and other criteria stipulated for the post.</li>
+                        <li>The date for determining the eligibility of all the candidates in every respect shall be the
+                            prescribed
+                            closing date for submission of Online Application, unless otherwise specified.</li>
+                        <li>Payment Information:
+                            <div class="table-responsive">
+                                <table class="table table-bordered overflow-auto">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>General/OBC</th>
+                                        <th>SC/ST/Female/PWD</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Amount</th>
+                                        <td>₹100</td>
+                                        <td>₹50</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </li>
+                        <li>Candidates seeking relaxations in age and/or exemption in payment of fee (wherever
+                            applicable) under
+                            SC/ST/OBC /PwBD/EWS/ Ex-Serviceman category are required to submit relevant certificate in
+                            the
+                            prescribed format of Govt. Of India, failing which no relaxation and/or exemption will be
+                            allowed.</li>
+                        <li>Candidates advice to keep these following supportive documents while filling form:
+                            <ol>
+                                <li>Original class 10th Marksheet and certificate</li>
+                                <li>Original class 12th Marksheet and certificate</li>
+                                <li>Original Graduation Marksheet and certificate</li>
+                                <li>Recent scanned Colour Passport size photo and scanned signature</li>
+                            </ol>
+                        </li>
+                        <li>Online Application Tips:
+                            <ul>
+                                <li>While applying online, use links and buttons, not the Back button.</li>
+                                <li>After completion, close all browser windows to safeguard personal details.</li>
+                                <li>Submit only one online application form; multiple submissions will be rejected.</li>
+                            </ul>
+                        </li>
+                        <li>Image Requirements:
+                            <ul>
+                                <li>Prepare scanned images of the Photograph and Signature in jpg/jpeg format.</li>
+                                <li>Photo size: 20 KB to 50 KB, Signature size: 10 KB to 20 KB.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="agreeButton">Agree</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div id="message" class="mt-3"></div>
+        <div class="card border-success mt-3">
+            <div class="card-header bg-success border-success text-white">
+                <h3>Register</h3>
+            </div>
+            <div class="card-body">
+                <form id="registrationForm" action="register.php" method="POST">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" class="input-custom" id="fullName" name="fullName" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" class="input-custom" id="dob" name="dob" placeholder="Date of Birth" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="text" class="input-custom" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="input-custom" id="email" name="email" placeholder="Email ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="captcha">Enter CAPTCHA:</label>
+                        <input type="text" name="captcha" id="captcha" class="input-custom"
+                            placeholder="Enter Text Shown Below" required>
+                        <img src="captcha.php" class="captcha" alt="CAPTCHA Image">
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-success btn-lg mt-3 px-5" id="submitBtn">Register</button>
+                    </div>
+                </form>
+                <div id="progressBarContainer">
+                    <div id="progressBar">0%</div>
+                    <div class="circle-container">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Footer -->
+    <footer class="bg-secondary text-white text-center py-3 mt-5">
+        <p>&copy; 2024 Institute for Plasma Research. All rights reserved.</p>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $('#registrationForm').on('submit', function (e) {
+                e.preventDefault();
+
+                //check Error Pattern
+                var errorMessages = '';
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                var mobilePattern = /^[0-9]{10}$/;
+
+                // Check required fields
+                $('input[required]').each(function () {
+                    if ($(this).val() === '') {
+                        errorMessages += 'Please fill out the ' + $(this).attr('placeholder') + ' field.<br>';
+                    }
+                });
+
+                // Validate email
+                var email = $('#email').val();
+                if (email && !emailPattern.test(email)) {
+                    errorMessages += 'Please enter a valid email address.<br>';
+                }
+                // Validate mobile
+                var mobile = $('#mobileNumber').val();
+                if (mobile && !mobilePattern.test(mobile)) {
+                    errorMessages += 'Please enter a valid 10-digit mobile number.<br>';
+                }
+                if (errorMessages) {
+                    $('#message').html(errorMessages).addClass('alert alert-danger');
+                    $('html, body').animate({ scrollTop: 0 }, 'slow'); // Scroll to top
+                }
+                else {
+                    // Show and initialize progress bar
+                    $('#progressBarContainer').show();
+                    $('#progressBar').css('width', '0%').text('Waiting....0%');
+
+                    // Form is valid, proceed with AJAX form submission
+                    $.ajax({
+                        url: 'register.php',
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        timeout: 10000, // 10 seconds timeout
+                        beforeSend: function () {
+                            // Update progress bar to 50%
+                            $('#progressBar').css('width', '50%').text('Waiting....50%');
+                        },
+                        success: function (response) {
+                            var res = JSON.parse(response);
+                            $('#message').text(res.message).addClass(res.status === 'success' ? 'alert alert-success' : 'alert alert-danger');
+                            if (res.status === 'success') {
+                                // If form submission is successful, send an email
+                                $.ajax({
+                                    url: 'send_email.php',
+                                    type: 'POST',
+                                    data: {
+                                        name: $('#fullName').val(),
+                                        email: $('#email').val(),
+                                        dob: $('#dob').val(),
+                                        mobile: $('#mobileNumber').val()
+                                    },
+                                    timeout: 10000, // 10 seconds timeout
+                                    beforeSend: function () {
+                                        // Update progress bar to 75%
+                                        $('#progressBar').css('width', '75%').text('Waiting....75%');
+                                    },
+                                    success: function (emailResponse) {
+                                        var emailRes = JSON.parse(emailResponse);
+                                        $('#message').text(emailRes.message).addClass(emailRes.status === 'success' ? 'text-success' : 'text-danger');
+                                        if (emailRes.status === 'success') {
+                                            // Update progress bar to 100%
+                                            $('#progressBar').css('width', '100%').text('Success 100%');
+                                            // Redirect to login page with response message
+                                            //email success message
+                                            window.location.href = 'index.html?message=' + encodeURIComponent(emailRes.message.concat(res.message));
+                                        } else {
+                                            // Update progress bar to 100%
+                                            $('#progressBar').css('width', '100%').text('Success 100%');
+                                            // Redirect to login page with response message
+                                            //email failed message
+                                            window.location.href = 'index.html?message=' + encodeURIComponent(emailRes.message.concat(res.message));
+                                        }
+                                    },
+                                    error: function () {
+                                        // Update progress bar to 100%
+                                        $('#progressBar').css('width', '100%').text('Succes 100%');
+                                        // Redirect to login page with response message
+                                        //email server error message
+                                        window.location.href = 'index.html?message=' + encodeURIComponent(emailRes.message.concat(res.message));
+                                    }
+                                });
+
+
+                            }
+                            else{
+                                $('html, body').animate({ scrollTop: 0 }, 'slow'); // Scroll to top
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Show the modal when the page loads
+            $('#instructionsModal').modal('show');
+
+            // Close the modal when the Agree button is clicked
+            $('#agreeButton').click(function () {
+                $('#instructionsModal').modal('hide');
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#submitBtn').click(function (e) {
+                e.preventDefault();
+                var captchaInput = $('#captcha').val();
+                $.ajax({
+                    url: 'validate_captcha.php',
+                    type: 'POST',
+                    data: { captcha: captchaInput },
+                    success: function (response) {
+                        if (response == 'success') {
+                            $('#registrationForm').submit();
+                        } else {
+                            alert('CAPTCHA is wrong. Try again.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
