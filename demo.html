@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form id="myForm">
+        <label for="name">Name: <span class="error">*</span></label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="email">Email: <span class="error">*</span></label>
+        <input type="email" id="email" name="email" required>
+        <br>
+        <label for="mobile">Mobile: <span class="error">*</span></label>
+        <input type="tel" id="mobile" name="mobile" required>
+        <br>
+        <button type="submit">Submit</button>
+        <p id="errorMessages" class="error"></p>
+    </form>
+
+    <script>
+        $(document).ready(function(){
+            $('#myForm').submit(function(event){
+                event.preventDefault();
+                
+                var errorMessages = '';
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                var mobilePattern = /^[0-9]{10}$/;
+
+                // Check required fields
+                $('input[required]').each(function(){
+                    if($(this).val() === '') {
+                        errorMessages += 'Please fill out the ' + $(this).attr('name') + ' field.<br>';
+                    }
+                });
+
+                // Validate email
+                var email = $('#email').val();
+                if(email && !emailPattern.test(email)) {
+                    errorMessages += 'Please enter a valid email address.<br>';
+                }
+
+                // Validate mobile
+                var mobile = $('#mobile').val();
+                if(mobile && !mobilePattern.test(mobile)) {
+                    errorMessages += 'Please enter a valid 10-digit mobile number.<br>';
+                }
+
+                if(errorMessages) {
+                    $('#errorMessages').html(errorMessages);
+                } else {
+                    // Form is valid, proceed with AJAX form submission
+                    $.ajax({
+                        url: 'register.php',
+                        type: 'POST',
+                        data: $('#myForm').serialize(),
+                        success: function(response) {
+                            alert('Form submitted successfully!');
+                            // Optionally, handle the response from register.php here
+                            console.log(response);
+                        },
+                        error: function(xhr, status, error) {
+                            // Optionally, handle the error here
+                            alert('An error occurred: ' + xhr.responseText);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
