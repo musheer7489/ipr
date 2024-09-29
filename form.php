@@ -230,15 +230,15 @@ if ($is_submitted == 'yes') {
                         </div>
                         <div class="form-group">
                             <label for="school">School/College Name</label>
-                            <input type="text" class="form-control" id="school" placeholder="Enter the name of the School/College">
+                            <input type="text" class="form-control" id="school" placeholder="Enter the name of the School/College" required>
                         </div>
                         <div class="form-group">
                             <label for="board">Board/University Name</label>
-                            <input type="text" class="form-control" id="board" placeholder="Enter the name of the Board/University">
+                            <input type="text" class="form-control" id="board" placeholder="Enter the name of the Board/University" required>
                         </div>
                         <div class="form-group">
                             <label for="passingYear">Passing Year</label>
-                            <input type="number" class="form-control" id="passingYear" placeholder="Enter Passing Year">
+                            <input type="number" class="form-control" id="passingYear" placeholder="Enter Passing Year" required>
                         </div>
                     </div>
                 </div>

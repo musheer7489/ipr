@@ -136,7 +136,7 @@ if ($user) {
             data-amount="<?php echo $data['amount']; ?>"
             data-currency="INR"
             data-order_id="<?php echo $data['order_id']; ?>"
-            data-buttontext="Continue to Payment"
+            data-buttontext="Please Do Not Back or Refresh Your Page"
             data-name="<?php echo $data['name']; ?>"
             data-description="<?php echo $data['description']; ?>"
             data-image="<?php echo $data['image']; ?>"

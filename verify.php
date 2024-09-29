@@ -1,7 +1,10 @@
 <?php
+session_start();
 require 'vendor/autoload.php';
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $api_key = 'rzp_test_64ZQLjjTKXqotI';
 $api_secret = '3zqbJJaTOWsP4nkhBSqjD4uH';
@@ -26,6 +29,24 @@ try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
     die('Database connection failed: ' . $e->getMessage());
+}
+// Retrieve user_id from session
+$user_id = $_SESSION['user_id'];
+$stmt = $pdo->prepare('SELECT * FROM applicants WHERE id = ?');
+$stmt->execute([$user_id]);
+$user = $stmt->fetch();
+//Retrieve user information from database
+if ($user) {
+    $category = $user['category'];
+    $name = $user['full_name'];
+    $email = $user['email'];
+    $contact = $user['mobile_number'];
+    $gender = $user['gender'];
+    $pwd = $user['pwd'];
+    $amount = ($category == 'SC' || $category == 'ST' || $gender == 'Female' || $pwd == 'yes') ? 50 : 100;
+}
+else{
+    die('User Not Found');
 }
 
 $success = true;
@@ -71,6 +92,103 @@ if (!empty($_POST['razorpay_payment_id']) && !empty($_POST['order_id'])) {
 }
 
 if ($success === true) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';  // Set your SMTP server
+        $mail->SMTPAuth = true;
+        $mail->Username = 'rajpoot8445@gmail.com'; // SMTP username
+        $mail->Password = 'nqbslisopcmvzmqn';  // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Recipient and content settings
+        $mail->setFrom('ipr@noreply.com', 'Institute for Plasma Research');
+        $mail->addAddress($email, 'Recipient');  // Customer's email address
+
+        // HTML email body
+        $mail->isHTML(true);
+        $mail->Subject = 'Payment Confirmation - Thanks for Completing your Application!';
+
+        $mail->Body = '
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+            }
+            .email-container {
+                background-color: #ffffff;
+                padding: 20px;
+                margin: 30px auto;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                width: 600px;
+            }
+            .header {
+                background-color: #4CAF50;
+                color: white;
+                text-align: center;
+                padding: 10px 0;
+                font-size: 22px;
+                border-radius: 10px 10px 0 0;
+            }
+            .content {
+                padding: 20px;
+                font-size: 16px;
+                color: #333;
+            }
+            .content p {
+                line-height: 1.6;
+            }
+            .footer {
+                text-align: center;
+                margin-top: 20px;
+                color: #888;
+                font-size: 14px;
+            }
+            .footer a {
+                color: #4CAF50;
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="email-container">
+            <div class="header">
+                Payment Confirmation
+            </div>
+            <div class="content">
+                <p>Dear <strong>'. $name.'</strong>,</p>
+                <p>Thank You for Completing your Application! We are pleased to inform you that your payment has been successfully processed.</p>
+                <p><strong>Payment Details:</strong></p>
+                <ul>
+                    <li><strong>Application Number: </strong> ' . $user_id . '</li>
+                    <li><strong>Payment ID: </strong> ' . $payment_id . '</li>
+                    <li><strong>Amount: </strong>' . $amount . '</li>
+                    <li><strong>Date: </strong> ' . date("F j, Y") . '</li>
+                </ul>
+                <p>If you have any questions or need further assistance, feel free to contact our support team at <a href="mailto:support@ipr.com">support@ipr.com</a>.</p>
+            </div>
+            <div class="footer">
+                <p>&copy; ' . date("Y") . ' Institute for Research Plasma. All rights reserved.</p>
+                <p><a href="https://ipr.com">Visit our website</a> | <a href="https://ipr.com/privacy">Privacy Policy</a></p>
+            </div>
+        </div>
+    </body>
+    </html>';
+
+        // Send email
+        $mail->send();
+        echo 'Payment confirmation email sent successfully.';
+    } catch (Exception $e) {
+        echo "Email could not be sent. Error: {$mail->ErrorInfo}";
+    }
     header("Location: preview.php?order_id=$order_id&status=successful");
 } else {
     // Log the error for debugging
@@ -78,4 +196,3 @@ if ($success === true) {
     header("Location: preview.php?order_id=$order_id&status=failed&error=" . urlencode($error));
 }
 exit();
-?>

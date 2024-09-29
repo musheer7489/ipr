@@ -88,9 +88,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin: 5px 0;
         }
         .footer {
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #555555;
+                text-align: center;
+                margin-top: 20px;
+                color: #888;
+                font-size: 14px;
+        }
+        .footer a {
+                color: #4CAF50;
+                text-decoration: none;
         }
     </style>
     <title>Complete Your Registration Process</title>
@@ -119,11 +124,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Thank you for your prompt attention to this matter.</p>
         </div>
         <div class="footer">
-            <p>Best regards,</p>
-            <p>Hreetesh Pandey</p>
-            <p>HR Head</p>
-            <p>hreetesh@ipr.in</p>
-            <p>Institute for Plasma Research</p>
+            <p>&copy; ' . date("Y") . ' Institute for Research Plasma. All rights reserved.</p>
+            <p><a href="https://ipr.com">Visit our website</a> | <a href="https://ipr.com/privacy">Privacy Policy</a></p>
         </div>
     </div>
 </body>
