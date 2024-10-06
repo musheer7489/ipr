@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include 'config.php';
 // Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.html");
@@ -94,7 +94,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="ic.jpg">
-    <title>User Data Preview</title>
+    <title><?php echo SITE_TITLE; ?> | Application Form Preview</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .photo img {
@@ -104,6 +104,41 @@ $conn->close();
 
         .bar_code {
             max-width: 500px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .watermark-container {
+            position: relative;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        .watermark-container::before {
+            content: "<?php echo COMPANY_NAME; ?>";
+            position: absolute;
+            top: 30%;
+            left: 25%;
+            transform: rotate(-45deg);
+            font-size: 4rem;
+            color: rgba(0, 0, 0, 0.1);
+            /* Light color for watermark effect */
+            z-index: -1;
+            /* Keep the watermark behind the content */
+            pointer-events: none;
+            /* Ensure it doesn't interfere with clicks */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
         }
     </style>
 </head>
@@ -122,15 +157,15 @@ $conn->close();
                 <?php echo $error_message; ?>
             </div>
         <?php endif; ?>
-        <table class="table table-bordered" id="printTable">
+        <table class="table table-bordered watermark-container" id="printTable">
             <tbody>
                 <tr>
-                    <td colspan="4"><img src="ipr-logo.png" alt="ipr-logo"></td>
+                    <td colspan="4"><img src="<?php echo LOGO_URL; ?>" alt="ipr-logo"></td>
                 </tr>
                 <?php if (!$payment) {
                     echo '<tr>';
                     echo  '<td colspan="2">Click on Pay Now to Complete Application</td>';
-                    echo    '<th colspan="2"><a href="payment.php" class="btn btn-success">Pay Now</a></th>';
+                    echo    '<th colspan="2"><a href="payment.php" class="btn btn-success">Pay Now</a><a href="edit_form.php" class="btn btn-warning ml-2">Edit Form</a></th>';
                     echo '</tr>';
                 } ?>
                 <tr>
@@ -145,7 +180,7 @@ $conn->close();
                     <th>Full Name</th>
                     <td><?php echo $fullName; ?></td>
                     <th>Date of Birth</th>
-                    <td><?php echo $dob; ?></td>
+                    <td><?php echo date("d-m-Y", strtotime($dob)); ?></td>
                 </tr>
                 <tr>
                     <th>Mobile Number</th>
@@ -293,8 +328,8 @@ $conn->close();
             </tbody>
         </table>
         <?php
-        if($payment){
-            if($status=='successful'){
+        if ($payment) {
+            if ($status == 'successful') {
                 echo '<button class="print-button btn btn-info" onclick="printTable()">Print Application Form</button>';
             }
         }
@@ -303,7 +338,7 @@ $conn->close();
 
     </div>
     <script>
-    function printTable() {
+        function printTable() {
             var divToPrint = document.getElementById('printTable');
             var newWin = window.open('', 'Print-Window');
             newWin.document.open();
@@ -314,7 +349,9 @@ $conn->close();
             newWin.document.write(divToPrint.outerHTML);
             newWin.document.write('</body></html>');
             newWin.document.close();
-            setTimeout(function(){newWin.close();},100);
+            setTimeout(function() {
+                newWin.close();
+            }, 100);
         }
     </script>
 </body>

@@ -15,11 +15,12 @@ $background_color = imagecolorallocate($image, 255, 255, 255); // White backgrou
 $border_color = imagecolorallocate($image, 0, 0, 0); // Black border
 
 // Create some colors for text
-$colors = [];
-for ($i = 0; $i < 5; $i++) {
-    $colors[] = imagecolorallocate($image, rand(0, 255), rand(0, 255), rand(0, 255));
-}
-
+$colors = [
+    imagecolorallocate($image, 255, 0, 0),   // Red
+    imagecolorallocate($image, 0, 102, 0),   // Green
+    imagecolorallocate($image, 0, 0, 255),    // Blue
+    imagecolorallocate($image, 0, 0, 0)    // Black
+];
 // Fill background
 imagefilledrectangle($image, 0, 0, $width, $height, $background_color);
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+include 'config.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -32,15 +32,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Server settings
         $mail->SMTPDebug = 0;                      // Enable verbose debug output
         $mail->isSMTP();                           // Send using SMTP
-        $mail->Host       = 'smtp.gmail.com';    // Set the SMTP server to send through
+        $mail->Host       = SMTP_HOST;    // Set the SMTP server to send through
         $mail->SMTPAuth   = true;                  // Enable SMTP authentication
-        $mail->Username   = 'rajpoot8445@gmail.com'; // SMTP username
-        $mail->Password   = 'nqbslisopcmvzmqn';       // SMTP password
+        $mail->Username   = SMTP_USERNAME; // SMTP username
+        $mail->Password   = SMTP_PASSWORD;       // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-        $mail->Port       = 587;                   // TCP port to connect to
+        $mail->Port       = SMTP_PORT;                   // TCP port to connect to
 
         //Recipients
-        $mail->setFrom('ipr@noreply.com', 'Institute for Plasma Research');
+        $mail->setFrom(NOREPLY_EMAIL, COMPANY_NAME);
         $mail->addAddress($email, 'Recipient'); // Add a recipient
 
         // Content
@@ -118,14 +118,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p>Full Name: <b>' . htmlspecialchars($name) . '</b></p>
                 <p>Email ID: <b>' . htmlspecialchars($email) . '</b></p>
                 <p>Mobile Number: <b>' . htmlspecialchars($mobile) . '</b></p>
-                <p>Date of Birth: <b>' . htmlspecialchars($dob) . '</b></p>
+                <p>Date of Birth: <b>' . htmlspecialchars(date("d-m-Y", strtotime($dob))) . '</b></p>
             </div>
             <p>If you have any questions or need assistance, please feel free to contact us. Please note that this is an automated email; do not reply to this message. Instead, direct your inquiries to ipr@digialm.in.</p>
             <p>Thank you for your prompt attention to this matter.</p>
         </div>
         <div class="footer">
-            <p>&copy; ' . date("Y") . ' Institute for Research Plasma. All rights reserved.</p>
-            <p><a href="https://ipr.com">Visit our website</a> | <a href="https://ipr.com/privacy">Privacy Policy</a></p>
+            <p>&copy; ' . date("Y").' ' . COMPANY_NAME.'. All rights reserved.</p>
+            <p><a href="'.COMPANY_URL.'">Visit our website</a> | <a href="'.COMPANY_URL.'/privacy">Privacy Policy</a></p>
         </div>
     </div>
 </body>

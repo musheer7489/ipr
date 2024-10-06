@@ -1,11 +1,12 @@
+<?php include 'config.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="ic.jpg">
-    <title>Registration</title>
+    <link rel="icon" type="image/x-icon" href="<?php echo FAVICON_URL; ?>">
+    <title><?php echo SITE_TITLE; ?>Registration</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -84,10 +85,10 @@
     <header>
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand"><img src="ipr-logo.png" alt="ipr-logo"></a>
+                <a class="navbar-brand"><img src="<?php echo LOGO_URL;?>" alt="ipr-logo"></a>
                 <div class="d-flex">
-                    <a href="register.html" class="btn btn-outline-secondary mx-2">Register</a>
-                    <a href="index.html" class="btn btn-outline-secondary">Login</a>
+                    <a href="register_form.php" class="btn btn-outline-secondary mx-2">Register</a>
+                    <a href="index.php" class="btn btn-outline-secondary">Login</a>
                 </div>
             </div>
         </nav>
@@ -179,19 +180,23 @@
                 <form id="registrationForm" action="register.php" method="POST">
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" class="input-custom" id="fullName" name="fullName" placeholder="Full Name" required>
+                        <input type="text" class="input-custom" id="fullName" name="fullName" placeholder="Full Name"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="dob">Date of Birth</label>
-                        <input type="date" class="input-custom" id="dob" name="dob" placeholder="Date of Birth" required>
+                        <input type="date" class="input-custom" id="dob" name="dob" placeholder="Date of Birth"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="mobileNumber">Mobile Number</label>
-                        <input type="text" class="input-custom" id="mobileNumber" name="mobileNumber" placeholder="Mobile Number" required>
+                        <input type="text" class="input-custom" id="mobileNumber" name="mobileNumber"
+                            placeholder="Mobile Number" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="input-custom" id="email" name="email" placeholder="Email ID" required>
+                        <input type="email" class="input-custom" id="email" name="email" placeholder="Email ID"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="captcha">Enter CAPTCHA:</label>
@@ -215,11 +220,14 @@
     </div>
     <!-- Footer -->
     <footer class="bg-secondary text-white text-center py-3 mt-5">
-        <p>&copy; 2024 Institute for Plasma Research. All rights reserved.</p>
+        <p>&copy; 2024 <?php echo COMPANY_NAME; ?>. All rights reserved.</p>
     </footer>
 
     <script>
         $(document).ready(function () {
+            $('input').not('[type="email"]').on('input', function () {
+                $(this).val($(this).val().toUpperCase());
+            });
             $('#registrationForm').on('submit', function (e) {
                 e.preventDefault();
 
@@ -291,13 +299,13 @@
                                             $('#progressBar').css('width', '100%').text('Success 100%');
                                             // Redirect to login page with response message
                                             //email success message
-                                            window.location.href = 'index.html?message=' + encodeURIComponent(emailRes.message.concat(res.message));
+                                            window.location.href = 'index.php?message=' + encodeURIComponent(emailRes.message.concat(res.message));
                                         } else {
                                             // Update progress bar to 100%
                                             $('#progressBar').css('width', '100%').text('Success 100%');
                                             // Redirect to login page with response message
                                             //email failed message
-                                            window.location.href = 'index.html?message=' + encodeURIComponent(emailRes.message.concat(res.message));
+                                            window.location.href = 'index.php?message=' + encodeURIComponent(emailRes.message.concat(res.message));
                                         }
                                     },
                                     error: function () {
@@ -305,13 +313,13 @@
                                         $('#progressBar').css('width', '100%').text('Succes 100%');
                                         // Redirect to login page with response message
                                         //email server error message
-                                        window.location.href = 'index.html?message=' + encodeURIComponent(emailRes.message.concat(res.message));
+                                        window.location.href = 'index.php?message=' + encodeURIComponent(emailRes.message.concat(res.message));
                                     }
                                 });
 
 
                             }
-                            else{
+                            else {
                                 $('html, body').animate({ scrollTop: 0 }, 'slow'); // Scroll to top
                             }
                         }

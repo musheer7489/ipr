@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         // User does not exist, redirect back to login page with error message
-        header("Location: index.html?error=Mobile Number or Date of Birth is Invalid");
+        header("Location: index.php?error=Mobile Number or Date of Birth is Invalid");
         exit();
     }
 

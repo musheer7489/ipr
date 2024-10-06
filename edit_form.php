@@ -9,14 +9,14 @@ $user_id = $_SESSION['user_id'];
 // Include database connection
 include 'db_connection.php';
 
-$query = "SELECT is_submitted FROM applicants WHERE id = ?";
+$query = "SELECT status FROM payments WHERE id = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
-$stmt->bind_result($is_submitted);
+$stmt->bind_result($status);
 $stmt->fetch();
 
-if ($is_submitted == 'yes') {
+if ($status == 'success') {
     header("Location: preview.php");
     exit();
 }
@@ -416,7 +416,7 @@ include 'config.php';
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="photo">Photo (Max 50 KB)</label>
-                            <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+                            <input type="text" class="form-control" name="photo" id="photo" readonly style="visibility: hidden;">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -427,7 +427,7 @@ include 'config.php';
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="signature">Signature (Max 20 KB)</label>
-                            <input type="file" class="form-control" id="signature" name="signature" accept="image/*" required>
+                            <input type="text" class="form-control" name="signature" id="signature" readonly style="visibility: hidden;">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -528,14 +528,14 @@ include 'config.php';
                         formData.append('country', $('#country').val());
                         break;
                     case 5:
-                        formData.append('photo', $('#photo')[0].files[0]);
-                        formData.append('signature', $('#signature')[0].files[0]);
+                        formData.append('photo', $('#photo').val());
+                        formData.append('signature', $('#signature').val());
                         break;
                 }
 
                 if (confirm('Do you want to save this step?')) {
                     $.ajax({
-                        url: 'update_form.php',
+                        url: 'preview_edit.php',
                         type: 'POST',
                         data: formData,
                         contentType: false,
@@ -663,6 +663,8 @@ include 'config.php';
                         $('#state').val(res.data.state);
                         $('#pinCode').val(res.data.pin_code);
                         $('#country').val(res.data.country);
+                        $('#photo').val(res.data.photo_path);
+                        $('#signature').val(res.data.signature_path);
                         // Set initial preview images
                         setInitialPreview('#photoPreview', res.data.photo_path);
                         setInitialPreview('#signaturePreview', res.data.signature_path);

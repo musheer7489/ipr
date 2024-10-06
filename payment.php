@@ -1,4 +1,5 @@
 <?php
+include 'config.php';
 require 'vendor/autoload.php';
 use Razorpay\Api\Api;
 
@@ -84,16 +85,16 @@ if ($user) {
     $data = [
         "key"               => $api_key,
         "amount"            => $amount_in_paise,
-        "name"              => "Institute for Plasma Research",
+        "name"              => COMPANY_NAME,
         "description"       => "Pay Application Fee to Complete Form",
-        "image"             => "ic.jpg",
+        "image"             => FAVICON_URL,
         "prefill"           => [
             "name"              => $name,
             "email"             => $email,
             "contact"           => $contact,
         ],
         "notes"             => [
-            "address"           => "Bhat, Near Indira Bridge, Gandhinagar 382 428 (India)",
+            "address"           => COMPANY_ADDRESS,
             "merchant_order_id" => "12312321",
         ],
         "theme"             => [
@@ -110,7 +111,7 @@ if ($user) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>IPR | Payment</title>
+    <title><?php echo SITE_TITLE ?> | Payment</title>
     <style>
         body {
             display: flex;

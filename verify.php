@@ -1,6 +1,8 @@
 <?php
 session_start();
 require 'vendor/autoload.php';
+include 'config.php';
+
 use Razorpay\Api\Api;
 use Razorpay\Api\Errors\SignatureVerificationError;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -97,15 +99,15 @@ if ($success === true) {
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';  // Set your SMTP server
+        $mail->Host = SMTP_HOST;  // Set your SMTP server
         $mail->SMTPAuth = true;
-        $mail->Username = 'rajpoot8445@gmail.com'; // SMTP username
-        $mail->Password = 'nqbslisopcmvzmqn';  // SMTP password
+        $mail->Username = SMTP_USERNAME; // SMTP username
+        $mail->Password = SMTP_PASSWORD;  // SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Port = SMTP_PORT;
 
         // Recipient and content settings
-        $mail->setFrom('ipr@noreply.com', 'Institute for Plasma Research');
+        $mail->setFrom(NOREPLY_EMAIL, COMPANY_NAME);
         $mail->addAddress($email, 'Recipient');  // Customer's email address
 
         // HTML email body
@@ -173,11 +175,11 @@ if ($success === true) {
                     <li><strong>Amount: </strong>' . $amount . '</li>
                     <li><strong>Date: </strong> ' . date("F j, Y") . '</li>
                 </ul>
-                <p>If you have any questions or need further assistance, feel free to contact our support team at <a href="mailto:support@ipr.com">support@ipr.com</a>.</p>
+                <p>If you have any questions or need further assistance, feel free to contact our support team at <a href="mailto:'.SUPPORT_EMAIL.'">'.SUPPORT_EMAIL.'</a>.</p>
             </div>
             <div class="footer">
-                <p>&copy; ' . date("Y") . ' Institute for Research Plasma. All rights reserved.</p>
-                <p><a href="https://ipr.com">Visit our website</a> | <a href="https://ipr.com/privacy">Privacy Policy</a></p>
+                <p>&copy; ' . date("Y") . ' '.COMPANY_NAME.'. All rights reserved.</p>
+                <p><a href="'.COMPANY_URL.'">Visit our website</a> | <a href="'.COMPANY_URL.'/privacy">Privacy Policy</a></p>
             </div>
         </div>
     </body>
